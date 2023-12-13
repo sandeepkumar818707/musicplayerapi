@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+   
+   <style>
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    /* background-color: rgb(238, 192, 135); */
+    background-image: url(https://png.pngtree.com/background/20211217/original/pngtree-note-music-logo-watercolor-background-picture-image_1589075.jpg);
+    /* background-image: url(https://thumbs.dreamstime.com/b/dirty-music-background-21777451.jpg); */
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-top: 1rem;
+    overflow-x: hidden;
+}
+
+input {
+    width: 50rem;
+    height: 3rem;
+    margin-bottom: 2rem;
+    border: 1px solid;
+    font-size: 1.2rem;
+    border: 2px solid;
+
+}
+
+button {
+    width: 8.5rem;
+    height: 3rem;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    border: 2px solid;
+    background-color: rgb(100, 105, 105);
+
+    color: rgb(255, 255, 255);
+
+}
+
+audio {
+    width: 65rem;
+    height: 2.5rem;
+    border: 2px solid;
+    border-radius: 1rem;
+    visibility: hidden;
+
+}
+
+.label {
+    /* font-size: 1.8rem;
+    color: white; */
+    width: 13rem;
+    height: 8rem;
+    display: flex;
+    align-items: center;
+
+}
+
+.currentsongimg {
+    width: 15rem;
+    height: 15rem;
+    border: 2px solid;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    width: 100vw;
+    flex-wrap: wrap;
+
+}
+
+img {
+    width: 15rem;
+    height: 15rem;
+}
+
+.songimg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.progress {
+    width: 1rem;
+    height: 0.8rem;
+    background-color: black;
+
+}
+
+.progresscontainer {
+    background-color: green;
+    height: 0.8rem;
+    width: 50rem;
+}
+
+.vol {
+    width: 3rem;
+    height: 3rem;
+}
+
+.playlist {
+    position: absolute;
+    transform: translate(1000%, -100%);
+    background-color: aquamarine;
+    border-radius: 20px;
+    border: 1px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    transition: transform 500ms linear;
+    width: 20vw;
+    right: 0%;
+}
+
+.playlist-item {
+    border: none;
+    border-radius: 20px;
+    margin-bottom: 5px;
+    background-color: aqua;
+    color: black;
+  
+}
+
+.hide {
+    transform: translate(-30%, -100%);
+}
+
+#newPlaylist
+{
+    max-width: 100%;
+    width: 15vw;
+    padding: 5px;
+    font-size: 1rem;
+    height: 2rem;
+    border-radius: 5px;
+
+}
+
+#addbtn
+{
+    display: flex;
+    position: absolute;
+    right: 0%;
+   
+}
+
+   </style>
+
+<body>
+    <div>
+        <label for="">JIOSAAVAN</label>
+        <!-- <img class="label" src="https://o.remove.bg/downloads/e5e16d88-66a2-4084-8e45-8acf291b0a4d/jiosaavn-removebg-preview.png" alt=""> -->
+        <input onchange="data()" class="input" type="text" placeholder="Search Artists,Songs,Albums">
+    </div>
+    <div>
+        <button value="All" class="butval" onclick="mainfunction(event)">All</button>
+        <button value="Trending Songs" class="butval" onclick="mainfunction(event)">Trending Songs</button>
+        <button value="New Songs" class="butval" onclick="mainfunction(event)">New Songs</button>
+        <button value="Old Songs" class="butval" onclick="mainfunction(event)">Old Songs</button>
+        <button value="Album" class="butval" onclick="mainfunction(event)">Album</button>
+        <button value="Radio" class="butval" onclick="mainfunction(event)">Radio</button>
+        <button value="Podcast" class="butval" onclick="mainfunction(event)">Podcast</button>
+        <button value="Moods and Genres" class="butval" onclick="mainfunction(event)">Moods and Genres</button>
+        <button value="My Music" class="butval" id="myMusic" onclick="mainfunction(event)">My Music</button>
+    </div>
+
+    <section class="divcenter">
+        <div class="list"></div>
+        <div class="songimg">
+            <!-- <img class="currentsongimg" src="https://media.istockphoto.com/id/1175435360/vector/music-note-icon-vector-illustration.jpg?s=612x612&w=0&k=20&c=R7s6RR849L57bv_c7jMIFRW4H87-FjLB8sqZ08mN0OU=" alt=""> -->
+            <!-- <img  class="currentsongimg" src="https://www.shutterstock.com/image-illustration/3d-illustration-musical-notes-signs-260nw-761313844.jpg" alt=""> -->
+            <img class="currentsongimg"
+                src="https://cdn.dribbble.com/users/1242979/screenshots/7099165/media/e521bd143bf1e795af3ec725a68e273f.gif"
+                alt="">
+            </aside>
+        </div>
+    </section>
+    
+    <div id="songFuncs">
+        <div class="playlist" id="playlists">
+
+
+            <div id="playlist-items">
+
+            </div>
+            <input id="newPlaylist" class="playList-item input-playlist" />
+            <button id="newPlaylist-btn" class="playList-item input-playlist">Add</button>
+        </div>
+        
+            <span class="addbtn" id="addbtn"><button id="addToPlaylist">Add To Playlist(+)</button></span>
+         
+        
+
+       
+    </div>
+
+ 
+    <div>
+        <button type="button" id="prevBtn"><ion-icon name="play-skip-back"></ion-icon></button>
+        <button type="button" id="pause"><ion-icon name="play"></ion-icon></button>
+        <button type="button" id="nextBtn"><ion-icon name="play-skip-forward"></ion-icon></button>
+    </div>
+
+    <div class="progresscontainer">
+        <div class="progress" id="progress">
+        </div>
+    </div>
+
+    <div class="trend">
+        <audio class="audio" id="audiotag" controls autoplay></audio>
+    </div>
+
+
+    <!-- <div class="playlist" id="playlists">
+        <button class="playList-item">Playlist1</button>
+        <button class="playList-item">Playlist2</button>
+        <button class="playList-item">Playlist3</button>
+        <button class="playList-item">Playlist4</button>
+        <button class="playList-item">Playlist5</button>
+        <input id="newPlaylist" value="Add new playlist"
+        class="playList-item input-playlist">ADD</div>button>
+    </div>
+
+</div> -->
+
+
+
+
+    <div class="volumee">
+
+        <ion-icon class="vol" name="volume-high-outline"></ion-icon> <input type="range" min="1" max="100" value="99"
+            class="volumebar" onchange="setVolume()">
+
+    </div>
+
+   
+
+</body>
+<script src="../JS/musicplayerapi.js"></script>
+
+</html>
